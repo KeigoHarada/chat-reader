@@ -1,6 +1,6 @@
 import { Box, Paper, styled, Typography } from "@mui/material";
 import { ChatData } from "./types"
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 interface ChatMessageProps {
     chat: ChatData,
