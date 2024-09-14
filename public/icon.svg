@@ -1,0 +1,13 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="lightgreen" stroke="none"/>
+
+  <!-- Chat Bubble -->
+  <rect x="50" y="50" width="100" height="70" rx="20" ry="20" fill="white"/>
+  <polygon points="70,120 90,100 110,120" fill="white"/>
+
+  <!-- Recovery Symbol -->
+  <circle cx="100" cy="85" r="20" fill="none" stroke="lightblue" stroke-width="4"/>
+  <path d="M 110 85 a 10 10 0 1 1 -20 0" fill="none" stroke="lightblue" stroke-width="4"/>
+  <polygon points="115,85 110,80 110,90" fill="lightblue"/>
+</svg>
