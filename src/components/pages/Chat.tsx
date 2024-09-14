@@ -101,7 +101,7 @@ function Chat({ file }: ChatProps) {
 
 
     return (
-        <Box sx={{ maxWidth: '100%', margin: 'auto', bgcolor: 'background.default', height: '100%' }}>
+        <Box sx={{ maxWidth: 'auto', margin: 'auto', bgcolor: 'background.default', height: '100%' }}>
             <Paper elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
                 {/* header */}
