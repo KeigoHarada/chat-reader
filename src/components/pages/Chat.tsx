@@ -41,34 +41,64 @@ function Chat({ file }: ChatProps) {
     }
 
     function isDateFormatted(date: string) {
-        const dateRegex = /^(\d{4}\.\d{2}\.\d{2}).*$/;
+        const dateRegex = /^\d{4}/;
         return dateRegex.test(date)
     }
 
     function parsechat(chat: string): ChatData {
-        const timeMatch = chat.match(/^(\d{2}:\d{2})\s(.+)$/);
-        if (!timeMatch) {
-            return { sender: '', message: chat, time: '' };
-        }
-
-        const [, time, rest] = timeMatch;
-
-        // 残りの部分から名前とコンテンツを分離
-        // 最後のスペースを見つけて、それを境界として使用
-        const lastSpaceIndex = rest.lastIndexOf(' ');
-        if (lastSpaceIndex === -1) {
-            return { sender: '', message: chat, time: '' };
-        }
-
-        const name = rest.substring(0, lastSpaceIndex).trim();
-        const content = rest.substring(lastSpaceIndex + 1).trim();
-
         return {
-            sender: name,
-            message: content,
-            time: time
+            sender: extractName(chat) || '',
+            message: extractMessageContent(chat) || '',
+            time: extractTime(chat) || ''
         }
     }
+
+    function extractTime(message: string): string | null {
+        // 正規表現パターン: 時間（HH:MM形式）を抽出
+        const timePattern = /^(\d{1,2}:\d{2})\s/;
+
+        const match = message.match(timePattern);
+
+        if (match && match[1]) {
+            // マッチした時間を返す
+            return match[1];
+        }
+
+        // マッチしない場合はnullを返す
+        return null;
+    }
+
+    function extractName(message: string): string | null {
+        // 正規表現パターン: 時間（HH:MM形式）の後のスペース、その後の名前（空白を含む可能性あり）を抽出
+        const namePattern = /^\d{1,2}:\d{2}\s+(.+?)(?:\s+\S|\s*$)/;
+
+        const match = message.match(namePattern);
+
+        if (match && match[1]) {
+            // マッチした名前を返す
+            return match[1].trim();
+        }
+
+        // マッチしない場合はnullを返す
+        return null;
+    }
+
+
+    function extractMessageContent(message: string): string | null {
+        // 正規表現パターン: 時間（HH:MM形式）、スペース、名前（空白を含む可能性あり）、そしてその後の内容を抽出
+        const contentPattern = /^\d{1,2}:\d{2}\s+\S+(?:\s+\S+)*?\s+(.*)/;
+
+        const match = message.match(contentPattern);
+
+        if (match && match[1]) {
+            // マッチしたメッセージ内容を返す
+            return match[1].trim();
+        }
+
+        // メッセージ内容がない場合はnullを返す
+        return null;
+    }
+
 
     return (
         <Box sx={{ maxWidth: '100%', margin: 'auto', bgcolor: 'background.default', height: '100%' }}>
@@ -87,7 +117,6 @@ function Chat({ file }: ChatProps) {
                         value={currentUser}
                         onChange={(e) => setCurrentUser(e.target.value)}
                         size="small"
-
                         sx={{ color: 'Black', minWidth: 120, bgcolor: 'primary.light' }}
                     >
                         {users.map(user => (
